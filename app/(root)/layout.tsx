@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import "./globals.css"
-import { Header } from "./components/header"
-import { Footer } from "./components/footer"
+import "../globals.css"
+import { Header } from "@/app/components/header"
+import { Footer } from "@/app/components/footer"
 
 type RootLayoutProps = {
   children: React.ReactNode
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ru">
       <body>
-        <div className="flex flex-col min-h-svh">
+        <div className="grid grid-rows-[auto_1fr_auto] min-h-svh">
           <Header />
           {children}
           <Footer />

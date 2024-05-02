@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { OrderItem } from "./components/order-item"
-import { ResumeItem } from "./components/resume-item"
-import { Button } from "./components/ui/button"
+import { OrderItem } from "@/app/components/order-item"
+import { ResumeItem } from "@/app/components/resume-item"
+import { Button } from "@/app/components/ui/button"
 import {
   BiChevronDown,
   BiChevronRight,
@@ -15,7 +15,7 @@ import Image from "next/image"
 import IntroImage from "@/public/intro.png"
 import AboutImage from "@/public/about.png"
 import ResumeImage from "@/public/resume.png"
-import { Input } from "./components/ui/input"
+import { Input } from "@/app/components/ui/input"
 
 export default function Home() {
   return (

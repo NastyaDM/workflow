@@ -2,10 +2,20 @@ import Link from "next/link"
 import { BurderDrawer } from "./burder-drawer"
 import { Button } from "./ui/button"
 import { BiCustomize, BiMenu } from "react-icons/bi"
+import React from "react"
+import { cn } from "@/lib/utils"
 
-export function Header() {
+type HeaderProps = React.ComponentProps<"header">
+
+export function Header({ className, ...props }: HeaderProps) {
   return (
-    <header className="sticky z-50 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      className={cn(
+        "sticky z-50 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80",
+        className
+      )}
+      {...props}
+    >
       <div className="container">
         <div className="flex items-center justify-between py-4">
           <Link href="/">
