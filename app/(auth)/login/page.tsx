@@ -12,11 +12,11 @@ import {
   FormMessage,
 } from "@/app/components/ui/form"
 import { Input } from "@/app/components/ui/input"
-import { BiLockAlt, BiUser } from "react-icons/bi"
+import { BiEnvelope, BiLockAlt, BiUser } from "react-icons/bi"
 import Link from "next/link"
 
 const formSchema = z.object({
-  login: z.string().min(1, "Обязательно поле!"),
+  login: z.string().email("Невалидный email!"),
   password: z.string().min(8, "Пароль должен быть не менее 8 сиволов!"),
 })
 
@@ -48,11 +48,11 @@ export default function AuthPage() {
                 <FormItem>
                   <FormControl>
                     <Input
-                      type="text"
+                      type="email"
                       placeholder="Логин"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
-                        <BiUser className="text-2xl text-muted-foreground" />
+                        <BiEnvelope className="text-2xl text-muted-foreground" />
                       }
                       {...field}
                     />
@@ -69,7 +69,7 @@ export default function AuthPage() {
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Логин"
+                      placeholder="*****"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
                         <BiLockAlt className="text-2xl text-muted-foreground" />
