@@ -26,8 +26,10 @@ const formSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Пароли не совпадают!",
-    path: ["confrimPassword"],
+    path: ["confirmPassword"],
   })
+
+export type RegisterFormSchema = z.infer<typeof formSchema>
 
 export default function RegisterPage() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,10 +44,16 @@ export default function RegisterPage() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const res = await fetch("/api/register-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+
+    const data = await res.json()
   }
 
   return (
@@ -174,7 +182,9 @@ export default function RegisterPage() {
                 </FormItem>
               )}
             />
-            <p className="text-muted-foreground">* - обязательные поля для заполнения</p>
+            <p className="text-muted-foreground">
+              * - обязательные поля для заполнения
+            </p>
             <footer className="flex flex-col justify-center gap-4">
               <Button type="submit">Зарегистрироваться</Button>
               <Button asChild variant="link" type="button">
