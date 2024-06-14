@@ -262,13 +262,13 @@ export default async function Home() {
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <div className="w-20 h-20 relative rounded-full overflow-hidden">
-                    <Image src="/avatar.png" fill alt="" />
+                    <Image src="/women_avatar.png" fill alt="" />
                   </div>
                   <div>
                     <h6 className="text-xl font-medium text-primary">
-                      Иван Иванов
+                    Катерина Павловна
                     </h6>
-                    <span className="text-description">Заказчик</span>
+                    <span className="text-description">Исполнитель</span>
                     <div className="flex gap-1">
                       <BiSolidStar className="text-warning" />
                       <BiSolidStar className="text-warning" />
@@ -279,9 +279,9 @@ export default async function Home() {
                   </div>
                 </div>
                 <span>
-                  Я очень доволен результатом работы с сайтом WorkFlow!
-                  Благодаря этой бирже идей у меня была возможность быстро и
-                  эффективно найти специалистов в области IT...
+                  Я очень доволена результатом работы с сайтом WorkFlow!
+                  Благодаря этой бирже идей у меня появилась возможность быстро и
+                  эффективно найти работу в области IT...
                 </span>
               </div>
             </article>
@@ -289,11 +289,11 @@ export default async function Home() {
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <div className="w-20 h-20 relative rounded-full overflow-hidden">
-                    <Image src="/avatar.png" fill alt="" />
+                    <Image src="/man_avatar.png" fill alt="" />
                   </div>
                   <div>
                     <h6 className="text-xl font-medium text-primary">
-                      Иван Иванов
+                      Роман Петров
                     </h6>
                     <span className="text-description">Заказчик</span>
                     <div className="flex gap-1">
