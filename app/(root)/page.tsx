@@ -8,18 +8,21 @@ import {
   BiDonateHeart,
   BiGlobe,
   BiHourglass,
-  BiSearch,
   BiSolidStar,
 } from "react-icons/bi";
 import Image from "next/image";
 import IntroImage from "@/public/intro.png";
 import AboutImage from "@/public/about.png";
 import ResumeImage from "@/public/resume.png";
-import { Input } from "@/app/components/ui/input";
+import { getOrders } from "../actions/getOrders";
+import { getResumes } from "../actions/getResumes";
 
-export default function Home() {
+export default async function Home() {
+  const orders = await getOrders();
+  const resumes = await getResumes();
+
   return (
-    <main className="">
+    <main>
       <section className="container grid place-items-center">
         <div className="flex items-center justify-center gap-8 max-lg:flex-wrap">
           <div className="flex flex-col max-w-xl gap-y-6">
@@ -35,7 +38,7 @@ export default function Home() {
             <div className="flex items-center max-xs:justify-center flex-wrap gap-x-6 gap-y-2">
               <Button asChild>
                 <Link
-                  href="#"
+                  href="#orders"
                   className="flex items-start py-4 text-white rounded-lg gap-x-2 bg-primary px-7"
                 >
                   Вперед
@@ -48,7 +51,7 @@ export default function Home() {
                 className="hover:bg-primary/10 hover:text-primary"
               >
                 <Link
-                  href=""
+                  href="/register"
                   className="flex items-center gap-x-2 text-primary"
                 >
                   Я исполнитель
@@ -62,57 +65,32 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="pt-8 pb-16 bg-gradient">
+      <section className="pt-8 pb-16 bg-gradient" id="orders">
         <div className="container">
           <div className="text-center text-white mx-auto max-w-[37rem] mb-10">
             <h2 className="mb-4 text-4xl">Заказы</h2>
-            <p className="">
+            <p>
               Просматривайте и управляйте вашими заказами с легкостью в нашем
               удобном разделе. Здесь вы найдете все необходимые детали заказов и
               сможете быстро реагировать на новые запросы от клиентов.
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <OrderItem
-              className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
-              id="123"
-            />
-            <OrderItem
-              className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
-              id="123"
-            />
-            <OrderItem
-              className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
-              id="123"
-            />
+            {orders.slice(0, 3).map((order) => (
+              <OrderItem
+                key={order.id}
+                className="basis-[20rem]"
+                title={order.title}
+                description={order.description}
+                tags={order.tags.map(({ tag }) => tag.label)}
+                price={order.price}
+                id={order.id}
+              />
+            ))}
           </div>
         </div>
       </section>
       <section className="container">
-        <div>
-          <h2 className="my-6 text-4xl text-center">Поиск</h2>
-          <div className="max-w-[700px] mx-auto">
-            <Input
-              type="text"
-              className="pr-28 rounded-lg text-lg pl-14 h-16"
-              placeholder="Поиск резюме и заказов..."
-              leadingIcon={<BiSearch className="text-primary text-3xl" />}
-              trailingBtn={<Button>Найти</Button>}
-            />
-          </div>
-        </div>
         <div className="flex items-center justify-center mt-4 max-xl:flex-wrap gap-14">
           <div className="max-w-[35rem] xl:max-w-[46rem] max-xl:order-2">
             <Image src={AboutImage} alt="" />
@@ -175,39 +153,17 @@ export default function Home() {
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <ResumeItem
-              className="basis-[20rem]"
-              title="Дизайнер"
-              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
-        как веб-сайты, мобильные приложения и логотипы. Владею широким
-        спектром инструментов и технологий, таких как Adobe Creative
-        Suite, Sketch и Figma"
-              tags={["Figma", "Photoshop"]}
-              level="Middle"
-              id="123"
-            />
-            <ResumeItem
-              className="basis-[20rem]"
-              title="Дизайнер"
-              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
-        как веб-сайты, мобильные приложения и логотипы. Владею широким
-        спектром инструментов и технологий, таких как Adobe Creative
-        Suite, Sketch и Figma"
-              tags={["Figma", "Photoshop"]}
-              level="Middle"
-              id="123"
-            />
-            <ResumeItem
-              className="basis-[20rem]"
-              title="Дизайнер"
-              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
-        как веб-сайты, мобильные приложения и логотипы. Владею широким
-        спектром инструментов и технологий, таких как Adobe Creative
-        Suite, Sketch и Figma"
-              tags={["Figma", "Photoshop"]}
-              level="Middle"
-              id="123"
-            />
+            {resumes.slice(0, 3).map((resume) => (
+              <ResumeItem
+                key={resume.id}
+                className="basis-[20rem]"
+                title={resume.special}
+                description={resume.description}
+                tags={resume.tags.map(({ tag }) => tag.label)}
+                level={resume.level}
+                id={resume.id}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -252,7 +208,7 @@ export default function Home() {
             <div className="flex items-center gap-x-6">
               <Button asChild>
                 <Link
-                  href="#"
+                  href="/register"
                   className="flex items-start py-4 text-white rounded-lg gap-x-2 bg-primary px-7"
                 >
                   Отправить резюме

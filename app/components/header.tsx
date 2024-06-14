@@ -52,7 +52,15 @@ export function Header({ className, ...props }: HeaderProps) {
             {session?.user ? (
               <div className="flex gap-2 items-center">
                 <BiUser />
-                <Link href="/profile">Профиль</Link>
+                <Link
+                  href={
+                    session.user.role === "Employer"
+                      ? "/profile-employer"
+                      : "/profile-performer"
+                  }
+                >
+                  Профиль
+                </Link>
               </div>
             ) : (
               <div className="flex gap-2 items-center">

@@ -13,51 +13,84 @@ import {
   FormMessage,
 } from "@/app/components/ui/form";
 import { Input } from "@/app/components/ui/input";
-import { BiEnvelope, BiLockAlt, BiUser } from "react-icons/bi";
 import { BiPencil } from "react-icons/bi";
 import { Textarea } from "@/app/components/ui/textarea";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/app/components/ui/popover";
-import { Checkbox } from "@/app/components/ui/checkbox";
 import { BiDollar } from "react-icons/bi";
 import { FancyMultiSelect } from "@/app/components/fancy-multi-select";
+import { BiBriefcaseAlt2 } from "react-icons/bi";
+import { Level } from "@prisma/client";
+import { getTags } from "@/app/actions/getTags";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createResume } from "@/app/actions/createResume";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
-  title: z.string().min(1, "Это поле обязательно!"),
-  price: z.string().min(1, "Это поле обязательно!"),
+  special: z.string().min(1, "Это поле обязательно!"),
+  level: z.nativeEnum(Level),
   tags: z.array(z.object({ value: z.string(), label: z.string() })),
   description: z.string().min(1, "Это полье обязательно!"),
 });
 
-export default function CreateOrderPage() {
+export default function CreateResumePage() {
+  const { data: session } = useSession();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      price: "",
+      special: "",
+      level: "Junior",
       tags: [],
       description: "",
     },
   });
 
+  const getTagsQuery = useQuery({
+    queryKey: ["tags"],
+    async queryFn() {
+      return await getTags();
+    },
+  });
+
+  const createResumeMutation = useMutation({
+    mutationFn: createResume,
+    onSuccess(data) {
+      toast.success("Резюме успешно создано!");
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    createResumeMutation.mutate({
+      ...values,
+      session: session!,
+      tags: values.tags.map((tag) => tag.value),
+    });
+  }
+
   return (
     <main className="container grid place-content-center py-4">
       <div className="rounded-lg shadow-md p-6 xs:px-12 xs:py-8 bg-background sm:w-[600px] w-full">
-        <h1 className="text-4xl text-center mb-9">Создание заказа</h1>
+        <h1 className="text-4xl text-center mb-9">Создание резюме</h1>
         <Form {...form}>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
-              name="title"
+              name="special"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Название заказа"
+                      placeholder="Ваша специализация"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
                         <BiPencil className="text-xl text-muted-foreground" />
@@ -80,20 +113,12 @@ export default function CreateOrderPage() {
                       placeholder="Выберите теги..."
                       value={value}
                       onValueChange={onChange}
-                      options={[
-                        {
-                          value: "Frontend",
-                          label: "Frontend",
-                        },
-                        {
-                          value: "Backend",
-                          label: "Backend",
-                        },
-                        {
-                          value: "Fullstack",
-                          label: "Fullstack",
-                        },
-                      ]}
+                      options={
+                        getTagsQuery.data?.map((tag) => ({
+                          value: tag.id,
+                          label: tag.label,
+                        })) ?? []
+                      }
                       {...field}
                     />
                   </FormControl>
@@ -105,10 +130,10 @@ export default function CreateOrderPage() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Описание заказа</FormLabel>
+                  <FormLabel>Описание резюме</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Придумайте описание заказа, которое полностью расскроет суть вашей идеи"
+                      placeholder="Придумайте описание вашего резюме, в котором будут указаны ваши сильные стороны"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       {...field}
                     />
@@ -119,26 +144,48 @@ export default function CreateOrderPage() {
             />
             <FormField
               control={form.control}
-              name="price"
+              name="level"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Ваш уровень</FormLabel>
                   <FormControl>
-                    <Input
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="gap-2 bg-white justify-normal text-left h-11"
+                      >
+                        <SelectTrigger>
+                          <BiBriefcaseAlt2 className="text-xl text-muted-foreground" />
+                          <p className="flex-1">
+                            <SelectValue placeholder="Укажите ваш уровень подготовки" />
+                          </p>
+                        </SelectTrigger>
+                      </Button>
+                      <SelectContent>
+                        {Object.entries(Level).map(([key, value]) => (
+                          <SelectItem key={key} value={key}>
+                            {value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {/* <Input
                       type="text"
-                      placeholder="Укажите цену заказа"
+                      placeholder="Укажите ваш уровень подготовки"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
-                        <BiDollar className="text-xl text-muted-foreground" />
+                        <BiBriefcaseAlt2 className="text-xl text-muted-foreground" />
                       }
                       {...field}
-                    />
+                    /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <footer className="flex items-center justify-center gap-4">
-              <Button type="submit">Создать заказ</Button>
+              <Button type="submit">Создать резюме</Button>
             </footer>
           </form>
         </Form>

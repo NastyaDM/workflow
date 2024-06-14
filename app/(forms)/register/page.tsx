@@ -40,8 +40,6 @@ const formSchema = z
 export type RegisterFormSchema = z.infer<typeof formSchema>;
 
 export default function RegisterPage() {
-  const formRef = useRef<HTMLFormElement>(null);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,11 +64,8 @@ export default function RegisterPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const formData = new FormData(formRef.current ?? undefined);
-
-    formData.append("role", values.role);
-
-    registerUserMutation.mutate(formData);
+    const { confirmPassword, ...data } = values;
+    registerUserMutation.mutate(data);
   }
 
   return (
@@ -78,11 +73,7 @@ export default function RegisterPage() {
       <div className="rounded-lg shadow-md p-6 xs:px-12 xs:py-8 bg-background">
         <h1 className="text-4xl text-center mb-9">Регистрация</h1>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            ref={formRef}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="surname"

@@ -14,11 +14,17 @@ model User {
   name          String
   fathername    String?
   password      String
+  bio           String?
   image         String?
   email         String    @unique
   emailVerified DateTime? @map("email_verified")
+  phone         String?
+  vk            String?
+  telegram      String?
   role          Role
   sessions      Session[]
+  createdOrders Order[]
+  resumes       Resume[]
 
   @@map("users")
 }
@@ -31,6 +37,69 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model Resume {
+  id          String      @id @default(cuid())
+  author      User        @relation(fields: [authorId], references: [id])
+  authorId    String      @map("author_id")
+  special     String
+  tags        ResumeTag[]
+  description String
+  level       Level
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@map("resumes")
+}
+
+model ResumeTag {
+  id       String @id @default(cuid())
+  resume   Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  resumeId String @map("resume_id")
+  tag      Tag    @relation(fields: [tagId], references: [id])
+  tagId    String @map("tag_id")
+
+  @@map("resumes_tags")
+}
+
+model Order {
+  id          String     @id @default(cuid())
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    String     @map("author_id")
+  title       String
+  description String
+  price       Float
+  tags        OrderTag[]
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model OrderTag {
+  id      String @id @default(cuid())
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String @map("order_id")
+  tag     Tag    @relation(fields: [tagId], references: [id])
+  tagId   String @map("tag_id")
+
+  @@map("orders_tags")
+}
+
+model Tag {
+  id      String      @id @default(cuid())
+  label   String
+  orders  OrderTag[]
+  resumes ResumeTag[]
+
+  @@map("tags")
+}
+
+enum Level {
+  Junior
+  Middle
+  Senior
 }
 
 enum Role {
