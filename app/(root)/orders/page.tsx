@@ -120,9 +120,9 @@ export default function OrdersPage() {
                 trailingBtn={<Button>Найти</Button>}
               />
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="flex flex-wrap justify-between mt-4">
               <p>Найдено результатов: {filteredOrders?.length}</p>
-              <div className="flex gap-6 items-center">
+              <div className="flex flex-wrap gap-6 items-center">
                 <div className="flex gap-3 items-center">
                   <p>Сортировать по:</p>
                   <Select
@@ -211,7 +211,7 @@ export default function OrdersPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             {!getOrdersQuery.isLoading ? (
               filteredOrders!.length > 0 ? (
                 filteredOrders?.map((order) => (

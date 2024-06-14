@@ -1,23 +1,31 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "./ui/button"
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer"
-import { BiCustomize } from "react-icons/bi"
-import { useEffect, useState } from "react"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import {
+  BiBook,
+  BiBriefcase,
+  BiCustomize,
+  BiLogIn,
+  BiUser,
+} from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type BurgerDrawerProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 export function BurderDrawer({ children }: BurgerDrawerProps) {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (isOpen) setIsOpen(false)
-  }, [pathname])
+    if (isOpen) setIsOpen(false);
+  }, [pathname]);
 
   return (
     <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
@@ -28,24 +36,48 @@ export function BurderDrawer({ children }: BurgerDrawerProps) {
             <div className="flex items-center justify-center gap-1">
               <BiCustomize className="text-5xl" />
               <div className="flex flex-col leading-none text-lg">
-                <span>WORK</span>
-                <span>FLOW</span>
+                <Link href="/">
+                  <span>WORK</span>
+                  <span>FLOW</span>
+                </Link>
               </div>
             </div>
           </Link>
           <nav className="flex flex-col gap-4">
-            <Button asChild>
-              <Link href="/">Резюме</Link>
+            <Button variant="ghost" className="gap-2 text-lg" asChild>
+              <Link href="/resume">
+                <BiBriefcase />
+                Резюме
+              </Link>
             </Button>
-            <Button asChild>
-              <Link href="/">Заказы</Link>
+            <Button variant="ghost" className="gap-2 text-lg" asChild>
+              <Link href="/orders">
+                <BiBook />
+                Заказы
+              </Link>
             </Button>
-            <Button asChild>
-              <Link href="/login">Войти</Link>
+            <Button variant="ghost" className="gap-2 text-lg" asChild>
+              {session?.user ? (
+                <Link
+                  href={
+                    session.user.role === "Employer"
+                      ? "/profile-employer"
+                      : "/profile-performer"
+                  }
+                >
+                  <BiUser />
+                  Профиль
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <BiLogIn />
+                  Войти
+                </Link>
+              )}
             </Button>
           </nav>
         </div>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }

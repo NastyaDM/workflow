@@ -169,7 +169,11 @@ export default function ProfilePage() {
             {session?.user.surname} {session?.user.name}{" "}
             {session?.user.fathername}
           </h3>
-          <p>{session?.user.bio !=="" ? session?.user.bio : "Описание отсутствует."}</p>
+          <p>
+            {session?.user.bio !== ""
+              ? session?.user.bio
+              : "Описание отсутствует."}
+          </p>
         </div>
         <Tabs value={tabs} onValueChange={(value) => setTabs(value as TabsMap)}>
           <TabsList className="bg-transparent flex p-0 h-auto justify-normal border-b border-muted-foreground rounded-none max-w-full overflow-auto">
@@ -375,73 +379,66 @@ export default function ProfilePage() {
                   </form>
                 </Form>
               ) : (
-                <div className="flex flex-col max-w-xl gap-y-6 max-xl:order-1">
-                  <div className="flex gap-6 justify-between pt-4">
-                    <div className="flex flex-col gap-6">
-                      <div className="flex gap-6">
-                        <span className="bg-primary text-primary-foreground rounded-full w-14 h-14 flex items-center justify-center text-3xl shrink-0">
-                          <BiLogoVk />
-                        </span>
-                        <div>
-                          <h5 className="text-xl font-medium">VK</h5>
-                          {session?.user.vk ? (
-                            <Link href={session.user.vk} target="_blank">
-                              {session.user.vk}
-                            </Link>
-                          ) : (
-                            <p>Не указан.</p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex gap-6">
-                        <span className="bg-primary text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shrink-0">
-                          <BiLogoTelegram className="text-3xl" />
-                        </span>
-                        <div>
-                          <h5 className="text-xl font-medium">Telegram</h5>
-                          {session?.user.telegram ? (
-                            <Link href={session.user.telegram} target="_blank">
-                              {session.user.telegram}
-                            </Link>
-                          ) : (
-                            <p>Не указан.</p>
-                          )}
-                        </div>
-                      </div>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] grid-rows-2 gap-4 gap-y-6 max-xl:order-1">
+                  <div className="flex gap-6">
+                    <span className="bg-primary text-primary-foreground rounded-full w-14 h-14 flex items-center justify-center text-3xl shrink-0">
+                      <BiLogoVk />
+                    </span>
+                    <div>
+                      <h5 className="text-xl font-medium">VK</h5>
+                      {session?.user.vk ? (
+                        <Link href={session.user.vk} target="_blank">
+                          {session.user.vk}
+                        </Link>
+                      ) : (
+                        <p>Не указан.</p>
+                      )}
                     </div>
-                    <div className="flex flex-col gap-6">
-                      <div className="flex gap-6">
-                        <span className="bg-primary text-primary-foreground flex items-center justify-center w-14 h-14 rounded-full shrink-0">
-                          <BiSolidPhone className="text-3xl" />
-                        </span>
-                        <div>
-                          <h5 className="text-xl font-medium">
-                            Номер телефона
-                          </h5>
-                          {session?.user.phone ? (
-                            <Link href={"tel:" + session.user.phone}>
-                              {session.user.phone}
-                            </Link>
-                          ) : (
-                            <p>Не указан.</p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex gap-6">
-                        <span className="bg-primary text-primary-foreground flex items-center justify-center w-14 h-14 rounded-full shrink-0">
-                          <BiSolidEnvelope className="text-3xl" />
-                        </span>
-                        <div>
-                          <h5 className="text-xl font-medium">Адрес почты</h5>
-                          {session?.user.email ? (
-                            <Link href={"mailto:" + session.user.email}>
-                              {session.user.email}
-                            </Link>
-                          ) : (
-                            <p>Не указан.</p>
-                          )}
-                        </div>
-                      </div>
+                  </div>
+                  <div className="flex gap-6">
+                    <span className="bg-primary text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shrink-0">
+                      <BiLogoTelegram className="text-3xl" />
+                    </span>
+                    <div>
+                      <h5 className="text-xl font-medium">Telegram</h5>
+                      {session?.user.telegram ? (
+                        <Link href={session.user.telegram} target="_blank">
+                          {session.user.telegram}
+                        </Link>
+                      ) : (
+                        <p>Не указан.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-6">
+                    <span className="bg-primary text-primary-foreground flex items-center justify-center w-14 h-14 rounded-full shrink-0">
+                      <BiSolidPhone className="text-3xl" />
+                    </span>
+                    <div>
+                      <h5 className="text-xl font-medium">Номер телефона</h5>
+                      {session?.user.phone ? (
+                        <Link href={"tel:" + session.user.phone}>
+                          {session.user.phone}
+                        </Link>
+                      ) : (
+                        <p>Не указан.</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-6">
+                    <span className="bg-primary text-primary-foreground flex items-center justify-center w-14 h-14 rounded-full shrink-0">
+                      <BiSolidEnvelope className="text-3xl" />
+                    </span>
+                    <div>
+                      <h5 className="text-xl font-medium">Адрес почты</h5>
+                      {session?.user.email ? (
+                        <Link href={"mailto:" + session.user.email}>
+                          {session.user.email}
+                        </Link>
+                      ) : (
+                        <p>Не указан.</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -455,7 +452,7 @@ export default function ProfilePage() {
                   <Link href={"create-order"}>Создать</Link>
                 </Button>
               </header>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center justify-center gap-4">
                 {!createdOrdersQuery.isLoading ? (
                   createdOrdersQuery.data &&
                   createdOrdersQuery.data.length > 0 ? (

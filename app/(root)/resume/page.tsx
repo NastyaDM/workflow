@@ -124,9 +124,9 @@ export default function ResumesPage() {
                 trailingBtn={<Button>Найти</Button>}
               />
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="flex flex-wrap justify-between mt-4">
               <p>Найдено результатов: {filteredResumes?.length}</p>
-              <div className="flex gap-6 items-center">
+              <div className="flex flex-wrap gap-6 items-center">
                 <div className="flex gap-3 items-center">
                   <p>Сортировать по:</p>
                   <Select
@@ -215,7 +215,7 @@ export default function ResumesPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             {!getResumesQuery.isLoading ? (
               filteredResumes!.length > 0 ? (
                 filteredResumes?.map((resume) => (
