@@ -21,7 +21,7 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, "Пароль должен быть не менее 8 сиволов!"),
+  password: z.string().min(8, "Пароль должен быть не менее 8 символов!"),
 });
 
 export default function AuthPage() {

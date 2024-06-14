@@ -29,7 +29,7 @@ const formSchema = z
     name: z.string().min(1, "Обязательно поле!"),
     fathername: z.string(),
     email: z.string().email("Невалидный email!"),
-    password: z.string().min(8, "Пароль должен быть не менее 8 сиволов!"),
+    password: z.string().min(8, "Пароль должен быть не менее 8 символов!"),
     confirmPassword: z.string().min(1, "Обязательное поле!"),
   })
   .refine((data) => data.password === data.confirmPassword, {
