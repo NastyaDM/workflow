@@ -289,7 +289,7 @@ export default async function Home() {
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <div className="w-20 h-20 relative rounded-full overflow-hidden">
-                    <Image src="/man_avatar.png" fill alt="" />
+                    <Image src="/man.png" fill alt="" />
                   </div>
                   <div>
                     <h6 className="text-xl font-medium text-primary">
