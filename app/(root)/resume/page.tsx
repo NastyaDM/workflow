@@ -1,6 +1,6 @@
 "use client";
 
-import { OrderItem } from "@/app/components/order-item";
+import { ResumeItem } from "@/app/components/resume-item";
 import { Button } from "@/app/components/ui/button";
 import { BiSearch } from "react-icons/bi";
 import { Input } from "@/app/components/ui/input";
@@ -50,12 +50,12 @@ export default function OrdersPage() {
       <section className="pt-8 pb-16 bg-gradient">
         <div className="container">
           <div className="text-center text-white mx-auto  mb-10">
-            <h2 className="mb-4 text-4xl">Заказы</h2>
+            <h2 className="mb-4 text-4xl">Резюме</h2>
             <div className="max-w-[1400px] mx-auto">
               <Input
                 type="text"
                 className="pr-28 rounded-lg text-lg pl-14 h-16"
-                placeholder="Поиск заказов..."
+                placeholder="Поиск резюме..."
                 leadingIcon={<BiSearch className="text-primary text-3xl" />}
                 trailingBtn={<Button>Найти</Button>}
               />
@@ -149,36 +149,48 @@ export default function OrdersPage() {
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <OrderItem
+          <ResumeItem
               className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
+              title="Дизайнер"
+              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
+        как веб-сайты, мобильные приложения и логотипы. Владею широким
+        спектром инструментов и технологий, таких как Adobe Creative
+        Suite, Sketch и Figma"
+              tags={["Figma", "Photoshop"]}
+              level="Middle"
               id="123"
             />
-            <OrderItem
+             <ResumeItem
               className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
+              title="Дизайнер"
+              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
+        как веб-сайты, мобильные приложения и логотипы. Владею широким
+        спектром инструментов и технологий, таких как Adobe Creative
+        Suite, Sketch и Figma"
+              tags={["Figma", "Photoshop"]}
+              level="Middle"
               id="123"
             />
-            <OrderItem
+            <ResumeItem
               className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
+              title="Дизайнер"
+              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
+        как веб-сайты, мобильные приложения и логотипы. Владею широким
+        спектром инструментов и технологий, таких как Adobe Creative
+        Suite, Sketch и Figma"
+              tags={["Figma", "Photoshop"]}
+              level="Middle"
               id="123"
             />
-            <OrderItem
+            <ResumeItem
               className="basis-[20rem]"
-              title="Доработки сайта на React, фронт + бэк NestJS"
-              description="1. Поправить кнопку и голову персонажа (сейчас они обрезаны). 2. Криво открывается ссылка подтверждения email из письма после регистрации"
-              tags={["Frontend"]}
-              price={10000}
+              title="Дизайнер"
+              description="Дизайнер с опытом в создании уникальных цифровых продуктов, таких
+        как веб-сайты, мобильные приложения и логотипы. Владею широким
+        спектром инструментов и технологий, таких как Adobe Creative
+        Suite, Sketch и Figma"
+              tags={["Figma", "Photoshop"]}
+              level="Middle"
               id="123"
             />
           </div>

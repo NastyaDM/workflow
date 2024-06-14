@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { OrderItem } from "@/app/components/order-item"
-import { ResumeItem } from "@/app/components/resume-item"
-import { Button } from "@/app/components/ui/button"
+import Link from "next/link";
+import { OrderItem } from "@/app/components/order-item";
+import { ResumeItem } from "@/app/components/resume-item";
+import { Button } from "@/app/components/ui/button";
 import {
   BiChevronDown,
   BiChevronRight,
@@ -10,12 +10,12 @@ import {
   BiHourglass,
   BiSearch,
   BiSolidStar,
-} from "react-icons/bi"
-import Image from "next/image"
-import IntroImage from "@/public/intro.png"
-import AboutImage from "@/public/about.png"
-import ResumeImage from "@/public/resume.png"
-import { Input } from "@/app/components/ui/input"
+} from "react-icons/bi";
+import Image from "next/image";
+import IntroImage from "@/public/intro.png";
+import AboutImage from "@/public/about.png";
+import ResumeImage from "@/public/resume.png";
+import { Input } from "@/app/components/ui/input";
 
 export default function Home() {
   return (
@@ -360,5 +360,5 @@ export default function Home() {
         </div>
       </section>
     </main>
-  )
+  );
 }

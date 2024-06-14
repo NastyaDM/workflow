@@ -1,38 +1,52 @@
-"use client"
+"use client";
 
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Button } from "@/app/components/ui/button"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/app/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/app/components/ui/form"
-import { Input } from "@/app/components/ui/input"
-import { BiEnvelope, BiLockAlt, BiUser } from "react-icons/bi"
-import Link from "next/link"
+} from "@/app/components/ui/form";
+import { Input } from "@/app/components/ui/input";
+import { BiEnvelope, BiLockAlt, BiUser } from "react-icons/bi";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  login: z.string().email("Невалидный email!"),
+  email: z.string().email(),
   password: z.string().min(8, "Пароль должен быть не менее 8 сиволов!"),
-})
+});
 
 export default function AuthPage() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      login: "",
+      email: "",
       password: "",
     },
-  })
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    const res = await signIn("credentials", { ...values, redirect: false });
+
+    if (res?.error) {
+      toast.error(res.error);
+    } else if (res?.ok) {
+      toast.success("Авторизация прошла успешно!")
+      router.push("/");
+    }
+
+    setIsLoading(false);
   }
 
   return (
@@ -43,16 +57,17 @@ export default function AuthPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="login"
+              name="email"
+              disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="Логин"
+                      placeholder="Email"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
-                        <BiEnvelope className="text-2xl text-muted-foreground" />
+                        <BiEnvelope className="text-xl text-muted-foreground" />
                       }
                       {...field}
                     />
@@ -64,6 +79,7 @@ export default function AuthPage() {
             <FormField
               control={form.control}
               name="password"
+              disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -72,7 +88,7 @@ export default function AuthPage() {
                       placeholder="*****"
                       className="rounded-lg xs:min-w-[18.75rem]"
                       leadingIcon={
-                        <BiLockAlt className="text-2xl text-muted-foreground" />
+                        <BiLockAlt className="text-xl text-muted-foreground" />
                       }
                       {...field}
                     />
@@ -85,11 +101,11 @@ export default function AuthPage() {
               <Button asChild variant="link">
                 <Link href="/register">Нет аккаунта?</Link>
               </Button>
-              <Button type="submit">Войти</Button>
+              <Button type="submit" disabled={isLoading}>Войти</Button>
             </footer>
           </form>
         </Form>
       </div>
     </main>
-  )
+  );
 }

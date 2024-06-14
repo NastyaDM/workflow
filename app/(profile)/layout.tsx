@@ -1,16 +1,16 @@
 import { Header } from "@/app/components/header";
 import { Footer } from "@/app/components/footer";
 
-type RootLayoutProps = {
+type AuthLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-svh">
-      <Header />
+      <Header className="!bg-transparent text-foreground" />
       {children}
-      <Footer />
+      <Footer className="bg-primary text-primary-foreground rounded-t-3xl" />
     </div>
   );
 }
